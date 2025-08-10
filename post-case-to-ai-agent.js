@@ -171,7 +171,7 @@ async function createSession(token, caseId) {
 async function runSseTaskAndGetResponse(token, sessionData, caseRecord) {
     await log.step('Step 5: Running Main Task on External API');
     const url = `${API_BASE_URL}/run_sse`;
-    const messagePayload = { id: caseRecord.Id, Type: caseRecord.Type, Subject: caseRecord.Subject, Description: caseRecord.Description, Origin: caseRecord.Origin };
+    const messagePayload = { id: caseRecord.Id, Type: caseRecord.Type, Subject: caseRecord.Subject, Description: caseRecord.Description, Origin: caseRecord.Origin};
     const payload = {
         app_name: sessionData.appName, userId: sessionData.userId, session_id: sessionData.id,
         new_message: { role: 'user', parts: [{ text: JSON.stringify(messagePayload) }] }, streaming: false,
@@ -247,7 +247,7 @@ async function updateSalesforceCase(sfAuth, updatePayload) {
 /**
  * Main orchestration function.
  */
-export default function handler(request, response) {
+async function main() {
     console.log(chalk.yellow.bold('--- Starting Salesforce Case Triage Process ---'));
     try {
         const gcloudToken = await getGCloudToken();
@@ -304,3 +304,5 @@ export default function handler(request, response) {
         process.exit(1);
     }
 }
+
+main();
